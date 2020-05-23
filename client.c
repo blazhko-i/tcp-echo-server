@@ -12,6 +12,7 @@ int main() {
     int clientSocket;
     struct sockaddr_in serverAddr;
     char buffer[1024];
+    char resv_buffer[1024];
 
     clientSocket = socket(PF_INET, SOCK_STREAM, 0);
     printf("Created \n");
@@ -23,8 +24,11 @@ int main() {
     connect(clientSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
     printf("Connected \n");
 
-    recv(clientSocket, buffer, 1024, 0);
-    printf("Received: %s\n", buffer);
+    strcpy(buffer, "Hello");
+    send(clientSocket, buffer, strlen(buffer), 0);
+
+    recv(clientSocket, resv_buffer, 1024, 0);
+    printf("Received: %s\n", resv_buffer);
 
     return 0;
 }
